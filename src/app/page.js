@@ -6,36 +6,16 @@ import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import Work from "./components/Work";
 
 export default function Home() {
   return (
     <main className="relative z-10 min-h-screen bg-[#fdfdfc] text-[#111111]">
-      {/* NAVIGATION */}
       <Navbar />
 
-      {/* HERO */}
       <Hero />
 
-      {/* TEMPORARY WORK SECTION */}
-      <section id="work" className="border-t border-[#e8e8e5] px-6 py-32">
-        <div className="mx-auto max-w-[1100px]">
-          <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-neutral-400">
-            Selected work
-          </p>
-
-          <h2 className="text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
-            Things I&apos;ve built.
-          </h2>
-
-          <div className="mt-16 rounded-3xl border border-dashed border-[#d8d8d5] p-12 text-center">
-            <p className="text-neutral-400">Your projects will live here.</p>
-
-            <p className="mt-2 text-sm text-neutral-400">
-              We&apos;ll build this section on Day 2.
-            </p>
-          </div>
-        </div>
-      </section>
+      <Work />
 
       {/* TEMPORARY ABOUT */}
       <section id="about" className="border-t border-[#e8e8e5] px-6 py-32">

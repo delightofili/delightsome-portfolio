@@ -1,0 +1,137 @@
+export const projects = [
+  {
+    slug: "lovequest",
+    title: "LoveQuest",
+    category: "FULLSTACK PRODUCT",
+    year: "2026",
+
+    shortDescription:
+      "A personalized experience builder that turns memories, stories, and photos into interactive experiences for someone special.",
+
+    description:
+      "LoveQuest is a fullstack platform for creating personalized digital experiences. Users can build an experience, add memories and stories, customize the presentation, and share the final result through a unique link.",
+
+    image: "/projects/lovequest.png",
+
+    live: "https://loveequest.vercel.app/",
+    github: "https://github.com/delightofili/LoveQuest",
+
+    featured: true,
+
+    stack: [
+      "Next.js",
+      "React",
+      "Prisma",
+      "PostgreSQL",
+      "Supabase",
+      "Tailwind CSS",
+    ],
+
+    role: "Fullstack Developer",
+
+    overview: [
+      "Designed and engineered the application from the ground up.",
+      "Built authentication and protected application routes.",
+      "Created the experience-building workflow.",
+      "Implemented unique sharing links for published experiences.",
+      "Designed the dashboard and publishing flow.",
+    ],
+
+    challenges: [
+      "Creating a flexible structure for storing different types of experience content.",
+      "Keeping private user data protected while allowing published experiences to be shared publicly.",
+      "Designing a simple creation flow without overwhelming the user.",
+    ],
+
+    engineering: [
+      {
+        title: "Authentication",
+        description:
+          "Implemented authentication and protected routes so users can manage their own experiences securely.",
+      },
+      {
+        title: "Experience Builder",
+        description:
+          "Built a structured experience creation flow that allows users to compose personalized content before publishing.",
+      },
+      {
+        title: "Sharing System",
+        description:
+          "Created unique public slugs that allow published experiences to be accessed through shareable links.",
+      },
+      {
+        title: "Database Architecture",
+        description:
+          "Used Prisma with PostgreSQL to model users, sessions, and experiences while keeping application data structured.",
+      },
+    ],
+  },
+
+  {
+    slug: "delresumeai",
+    title: "DelResumeAI",
+    category: "FULLSTACK SAAS",
+    year: "2026",
+
+    shortDescription:
+      "An AI-powered resume builder designed to help students and job seekers create polished, ATS-friendly resumes in minutes.",
+
+    description:
+      "DelResumeAI is a resume-building platform focused on making professional resume creation faster and easier. Users can build their resume, work with structured sections, preview the result, and use AI-assisted improvements to strengthen their content.",
+
+    image: "/projects/delresumeai.png",
+
+    live: "https://delresumeai.vercel.app/",
+    github: "https://github.com/delightofili/ResumeAi",
+
+    featured: true,
+
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "Prisma",
+      "PostgreSQL",
+      "Supabase",
+      "Tailwind CSS",
+    ],
+
+    role: "Fullstack Developer",
+
+    overview: [
+      "Designed and built the application from scratch.",
+      "Created the resume creation workflow.",
+      "Implemented authentication and user-specific data.",
+      "Built structured resume sections and editing interfaces.",
+      "Integrated AI-assisted resume improvements.",
+    ],
+
+    challenges: [
+      "Designing a resume editor that remains simple while supporting multiple sections.",
+      "Keeping resume data structured enough to generate consistent output.",
+      "Creating a workflow that feels fast for users who may not have professional resume-writing experience.",
+    ],
+
+    engineering: [
+      {
+        title: "Structured Resume Data",
+        description:
+          "Designed the application around structured resume information instead of treating the resume as a single block of text.",
+      },
+      {
+        title: "Authentication",
+        description:
+          "Implemented user authentication and protected resources so resumes belong to individual users.",
+      },
+      {
+        title: "AI Assistance",
+        description:
+          "Added AI-assisted functionality to help users improve resume content and make their experience more effective.",
+      },
+      {
+        title: "Application Architecture",
+        description:
+          "Used Next.js with Prisma and PostgreSQL to connect the user interface, application logic, and persistent data layer.",
+      },
+    ],
+  },
+];
