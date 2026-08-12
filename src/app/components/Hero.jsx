@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -56,7 +57,7 @@ export default function Hero() {
             {/* Main heading */}
             <div className="relative">
               {/* Changing role */}
-              <div className="relative mt-2 h-[clamp(4.2rem,7vw,7rem)] w-[min(90vw,750px)] overflow-hidden">
+              <div className="relative mt-2 h-[7rem] sm:min-h-[8rem] lg:min-h-[8rem] w-[min(90vw,750px)] overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={roles[roleIndex]}
@@ -76,7 +77,7 @@ export default function Hero() {
                       duration: 0.55,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="absolute inset-0 text-[clamp(3.3rem,5.5vw,6rem)] font-medium leading-[0.9] tracking-[-0.07em] text-neutral-400"
+                    className="absolute inset-0 text-[clamp(3rem,5.5vw,6rem)] font-medium leading-[0.9] tracking-[-0.07em] text-neutral-400"
                   >
                     {roles[roleIndex]}
                   </motion.div>
@@ -174,10 +175,12 @@ export default function Hero() {
                 }}
                 className="absolute inset-0 overflow-hidden rounded-2xl border-4 border-white bg-neutral-100 shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
               >
-                <img
+                <Image
                   src="/profile.png"
                   alt="Chukwunonso Ofili"
-                  className="h-full w-full object-cover object-center"
+                  fill
+                  sizes="(max-width: 640px) 180px, 200px"
+                  className="object-cover object-center"
                 />
               </motion.div>
 

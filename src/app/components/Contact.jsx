@@ -164,10 +164,10 @@ export default function Contact() {
               </h3>
 
               <a
-                href="mailto:your@email.com"
+                href="mailto:delightofili0@gmail.com"
                 className="text-base text-neutral-500 transition-colors hover:text-neutral-950"
               >
-                your@email.com
+                delightofili0@gmail.com
               </a>
             </div>
 

@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { FaGithub } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaTiktok } from "react-icons/fa";
 
 export default function About() {
   return (
@@ -124,6 +127,20 @@ export default function About() {
                 </p>
 
                 <p className="text-lg text-neutral-700">Nigeria 🇳🇬</p>
+              </div>
+              <div className="flex  gap-4 pt-3 items-center text-neutral-700 mt-3">
+                <p className="font-bold ">Follow me:</p>
+                <div className="flex gap-4 text-neutral-700">
+                  <a href="https://github.com/delightofili">
+                    <FaGithub />
+                  </a>
+                  <a href="https://x.com/DelightOfili">
+                    <FaXTwitter />
+                  </a>
+                  <a href="https://www.tiktok.com/@delightsomeee">
+                    <FaTiktok />
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>

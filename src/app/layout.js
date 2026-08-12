@@ -10,7 +10,7 @@ const manrope = Manrope({
 export const metadata = {
   title: "Chukwunonso Ofili — Fullstack Developer",
   description:
-    "Portfolio of Chukwunonso Ofili, a Fullstack Developer building thoughtful digital products and scalable web applications.",
+    "Chukwunonso Ofili is a Fullstack Developer from Nigeria building thoughtful web applications, digital products, and scalable systems.",
   keywords: [
     "Chukwunonso Ofili",
     "Fullstack Developer",
@@ -22,6 +22,23 @@ export const metadata = {
   ],
   authors: [{ name: "Chukwunonso Ofili" }],
   creator: "Chukwunonso Ofili",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Chukwunonso Ofili - Fullstack Developer",
+    description:
+      "Fullstack Developer building thoughtful web applications, digital products, and scalable systems.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chukwunonso Ofili — Fullstack Developer",
+    description:
+      "Fullstack Developer building thoughtful web applications, digital products, and scalable systems.",
+  },
 };
 
 export default function RootLayout({ children }) {

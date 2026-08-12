@@ -1,7 +1,8 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -21,17 +22,20 @@ export default function Footer() {
               href="https://github.com/delightofili"
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors hover:text-white"
+              className="transition-colors hover:text-white flex items-center gap-1"
             >
-              GitHub
+              <FaGithub /> GitHub
             </a>
 
-            <a href="#" className="transition-colors hover:text-white">
+            {/* <a href="#" className="transition-colors hover:text-white">
               LinkedIn
-            </a>
+            </a> */}
 
-            <a href="#" className="transition-colors hover:text-white">
-              X
+            <a
+              href="https://x.com/DelightOfili"
+              className="transition-colors hover:text-white flex items-center gap-1"
+            >
+              <FaXTwitter /> Twitter
             </a>
 
             <a href="#contact" className="flex items-center gap-1 text-white">
