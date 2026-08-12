@@ -17,12 +17,11 @@ export default function Navbar() {
       className="fixed left-1/2 top-5 z-50 w-[calc(100%-28px)] max-w-[590px] -translate-x-1/2"
     >
       <div className="flex items-center justify-between rounded-full border border-[#e8e8e5] bg-white/80 px-2 py-2 shadow-[0_8px_35px_rgba(0,0,0,0.05)] backdrop-blur-2xl">
-        {/* Logo */}
         <a
           href="#home"
-          className="flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold !text-black"
+          className="flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold !text-black"
         >
-          CO.
+          C.O
         </a>
 
         {/* Desktop links */}
@@ -47,7 +46,6 @@ export default function Navbar() {
             Let&apos;s talk
           </a>
 
-          {/* Mobile menu — functionality comes later */}
           <button
             type="button"
             aria-label="Open menu"

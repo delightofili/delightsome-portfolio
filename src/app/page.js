@@ -7,6 +7,10 @@ import { FaLinkedin } from "react-icons/fa";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Work from "./components/Work";
+import About from "./components/About";
+import Experience from "./components/Experience";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -17,43 +21,13 @@ export default function Home() {
 
       <Work />
 
-      {/* TEMPORARY ABOUT */}
-      <section id="about" className="border-t border-[#e8e8e5] px-6 py-32">
-        <div className="mx-auto max-w-[800px]">
-          <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-neutral-400">
-            About
-          </p>
+      <About />
 
-          <h2 className="text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
-            More than just code.
-          </h2>
+      <Experience />
 
-          <p className="mt-8 text-lg leading-8 text-neutral-500">
-            I&apos;m a Fullstack Developer who enjoys turning ideas into useful,
-            polished digital products. More of this story is coming on Day 3.
-          </p>
-        </div>
-      </section>
+      <Contact />
 
-      {/* TEMPORARY CONTACT */}
-      <section id="contact" className="border-t border-[#e8e8e5] px-6 py-32">
-        <div className="mx-auto max-w-[800px]">
-          <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-neutral-400">
-            Contact
-          </p>
-
-          <h2 className="text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
-            Let&apos;s build something.
-          </h2>
-        </div>
-      </section>
-
-      <footer className="border-t border-[#e8e8e5] px-6 py-8">
-        <div className="mx-auto flex max-w-[1100px] items-center justify-between text-sm text-neutral-400">
-          <span>© 2026 Chukwunonso Ofili</span>
-          <span>Built with intention.</span>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
