@@ -79,7 +79,7 @@ export const projects = [
     description:
       "DelResumeAI is a resume-building platform focused on making professional resume creation faster and easier. Users can build their resume, work with structured sections, preview the result, and use AI-assisted improvements to strengthen their content.",
 
-    image: "/projects/far-away.png",
+    image: "/projects/delresumeai.png",
 
     live: "https://delresumeai.vercel.app/",
     github: "https://github.com/delightofili/ResumeAi",
@@ -147,7 +147,7 @@ export const projects = [
     description:
       "A simple travel packing planner that helps users organize everything they need for a trip. Items can be added to a packing list, marked as packed, and managed as the trip comes together.",
 
-    image: "/projects/delresumeai.png",
+    image: "/projects/far-away.png",
 
     live: "https://far-away-app-ten.vercel.app/",
     github: "https://github.com/delightofili/far-away",

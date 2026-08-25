@@ -127,7 +127,7 @@ export default function Work({ showAll = false }) {
                 <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400">
                   <span>{project.category}</span>
                   <span className="h-1 w-1 rounded-full bg-neutral-300" />
-                  <span>Live</span>
+                  {project.live ? <span>Live</span> : <span>not live yet</span>}
                 </div>
 
                 <div className="mt-3 flex items-start justify-between gap-5">
