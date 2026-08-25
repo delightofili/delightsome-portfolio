@@ -79,7 +79,7 @@ export const projects = [
     description:
       "DelResumeAI is a resume-building platform focused on making professional resume creation faster and easier. Users can build their resume, work with structured sections, preview the result, and use AI-assisted improvements to strengthen their content.",
 
-    image: "/projects/delresumeai.png",
+    image: "/projects/far-away.png",
 
     live: "https://delresumeai.vercel.app/",
     github: "https://github.com/delightofili/ResumeAi",
@@ -132,6 +132,86 @@ export const projects = [
         description:
           "Used Next.js with Prisma and PostgreSQL to connect the user interface, application logic, and persistent data layer.",
       },
+    ],
+  },
+
+  {
+    slug: "Far Away App",
+    title: "far-away-app",
+    category: "Travel & Productivity",
+    year: "2025",
+
+    shortDescription:
+      "A travel packing planner for organizing and tracking everything you need for a trip.",
+
+    description:
+      "A simple travel packing planner that helps users organize everything they need for a trip. Items can be added to a packing list, marked as packed, and managed as the trip comes together.",
+
+    image: "/projects/delresumeai.png",
+
+    live: "https://far-away-app-ten.vercel.app/",
+    github: "https://github.com/delightofili/far-away",
+
+    featured: true,
+
+    stack: ["React", "Javascript", "CSS"],
+
+    role: "Fullstack Developer",
+
+    overview: [
+      "Create and manage packing items",
+      "Mark items as packed or unpacked",
+      "Track packing progress",
+      "Sort and organize items",
+      "Calculate packing statistics",
+      "Interactive and responsive interface",
+    ],
+
+    challenges: [
+      "Managing a dynamic list of packing items while keeping the UI synchronized with every change.",
+      "Handling item states such as packed and unpacked without making the interface confusing.",
+      "Designing a simple workflow that makes adding, removing, sorting, and tracking items feel effortless.",
+      "Keeping the application responsive and usable across different screen sizes.",
+    ],
+  },
+
+  {
+    slug: "expense-tracker",
+    title: "Expense Tracker",
+    category: "Finance & Productivity",
+    year: "2025",
+
+    shortDescription:
+      "A personal finance app for tracking expenses and understanding spending habits.",
+
+    description:
+      "A personal finance application that helps users record, organize, and monitor their expenses, giving them a clearer picture of how they spend their money.",
+
+    image: "/projects/expense-tracker.png",
+
+    live: "https://expense-tracker-mauve-tau-88.vercel.app/",
+    github: "https://github.com/delightofili/expense-tracker",
+
+    featured: true,
+
+    stack: ["React", "Javascript", "CSS"],
+
+    role: "Frontend Developer",
+
+    overview: [
+      "Add and manage expenses",
+      "Categorize transactions",
+      "Track spending",
+      "View financial summaries",
+      "Calculate totals dynamically",
+      "Responsive dashboard",
+    ],
+
+    challenges: [
+      "Managing financial data dynamically as transactions are added, edited, or removed.",
+      "Calculating totals and summaries from changing expense data.",
+      "Structuring the application state so different parts of the interface remain synchronized.",
+      "Designing a financial interface that presents information clearly without overwhelming the user.",
     ],
   },
 ];
