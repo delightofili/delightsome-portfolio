@@ -136,8 +136,8 @@ export const projects = [
   },
 
   {
-    slug: "Far Away App",
-    title: "far-away-app",
+    slug: "far-away",
+    title: "Far Away App",
     category: "Travel & Productivity",
     year: "2025",
 
@@ -156,7 +156,7 @@ export const projects = [
 
     stack: ["React", "Javascript", "CSS"],
 
-    role: "Fullstack Developer",
+    role: "Frontend Developer",
 
     overview: [
       "Create and manage packing items",

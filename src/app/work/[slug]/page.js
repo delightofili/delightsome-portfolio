@@ -214,7 +214,7 @@ export default async function ProjectPage({ params }) {
           </div>
 
           <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2">
-            {project.engineering.map((item, index) => (
+            {project.engineering?.map((item, index) => (
               <div
                 key={item.title}
                 className="bg-neutral-950 p-8 transition-colors hover:bg-neutral-900 sm:p-10"
