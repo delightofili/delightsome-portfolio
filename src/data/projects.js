@@ -1,5 +1,136 @@
 export const projects = [
   {
+    slug: "devflow",
+    title: "DevFlow",
+    category: "FULLSTACK PRODUCT",
+    year: "2026",
+
+    shortDescription:
+      "A full-stack project management platform designed specifically for software development teams.",
+
+    description:
+      "DevFlow is a collaborative project management platform built to help software development teams organize projects, manage tasks, collaborate with teammates, and keep development work structured in one place.",
+
+    image: "/projects/devflow.png",
+
+    live: "",
+    github: "https://github.com/delightofili/devflow",
+
+    featured: true,
+
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "PostgreSQL",
+      "Prisma",
+      "NextAuth",
+      "Socket.IO",
+      "OpenAI",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Radix UI",
+      "Zod",
+      "Recharts",
+    ],
+
+    role: "Fullstack Developer",
+
+    overview: [
+      "DevFlow is a full-stack project management platform built for software development teams to plan projects, organize tasks, collaborate with teammates, and track progress in one centralized workspace.",
+    ],
+
+    challenges: [
+      "Designing a full-stack architecture that keeps the frontend, server logic, database, and authentication layers organized and maintainable.",
+
+      "Managing relational project data with PostgreSQL and Prisma while keeping relationships between workspaces, projects, users, and tasks consistent.",
+
+      "Implementing real-time communication with Socket.IO so collaborative changes can be reflected across connected clients.",
+
+      "Building drag-and-drop task interactions while keeping task state synchronized with the backend.",
+
+      "Implementing authentication and authorization so users can securely access the workspaces and projects they belong to.",
+
+      "Integrating AI functionality into an existing full-stack workflow while keeping the application architecture modular.",
+
+      "Building dashboards and data visualizations that turn project information into useful insights for development teams.",
+    ],
+
+    engineering: [
+      {
+        title: "Authentication & Authorization",
+        description:
+          "Implemented secure authentication and authorization flows so users can access their workspaces, projects, and resources based on their permissions.",
+      },
+
+      {
+        title: "Workspace & Project Architecture",
+        description:
+          "Designed the application around workspaces and projects, allowing teams to organize multiple development projects while keeping users, tasks, and project data properly connected.",
+      },
+
+      {
+        title: "Task Management",
+        description:
+          "Built a structured task management system that allows teams to create, organize, update, and track work throughout different stages of development.",
+      },
+
+      {
+        title: "Drag & Drop Workflow",
+        description:
+          "Implemented interactive drag-and-drop task management to make moving work between different stages faster and more intuitive.",
+      },
+
+      {
+        title: "Real-Time Collaboration",
+        description:
+          "Integrated Socket.IO to support real-time updates and keep collaborative project activity synchronized between connected users.",
+      },
+
+      {
+        title: "Database Architecture",
+        description:
+          "Designed relational data models with PostgreSQL and Prisma to manage users, workspaces, projects, tasks, and their relationships consistently.",
+      },
+
+      {
+        title: "Server-Side Architecture",
+        description:
+          "Structured the application using Next.js server-side capabilities to handle data access, mutations, authentication, and backend operations within the same application.",
+      },
+
+      {
+        title: "AI Integration",
+        description:
+          "Integrated AI capabilities into the development workflow to provide intelligent functionality within the project management experience.",
+      },
+
+      {
+        title: "Project Analytics",
+        description:
+          "Built interactive dashboards and data visualizations that transform project and task data into useful progress and productivity insights.",
+      },
+
+      {
+        title: "Form & Data Validation",
+        description:
+          "Implemented structured validation with Zod to ensure user input is validated consistently before being processed or persisted.",
+      },
+
+      {
+        title: "Reusable Component System",
+        description:
+          "Built reusable interface components and established consistent UI patterns to keep the application maintainable as the number of features and screens increased.",
+      },
+
+      {
+        title: "Responsive Interface",
+        description:
+          "Designed the application to remain usable across different screen sizes while maintaining consistent layouts, interactions, and information hierarchy.",
+      },
+    ],
+  },
+  {
     slug: "lovequest",
     title: "LoveQuest",
     category: "FULLSTACK PRODUCT",
