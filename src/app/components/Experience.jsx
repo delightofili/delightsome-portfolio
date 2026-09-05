@@ -10,7 +10,27 @@ const experiences = [
     company: "Independent Development",
     description:
       "Building and shipping web applications across frontend and backend systems, with hands-on experience in product development, databases, authentication, APIs, deployment, and modern JavaScript frameworks.",
-    tags: ["Next.js", "React", "Node.js", "PostgreSQL"],
+    tags: [
+      "Next.js",
+      "React",
+      "React Native",
+      "Expo",
+      "Node.js",
+      "Express",
+      "TypeScript",
+      "JavaScript",
+      "PostgreSQL",
+      "Prisma",
+      "Socket.io",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Cloudinary",
+      "REST APIs",
+      "JWT Authentication",
+      "Git",
+      "Vercel",
+      "Render",
+    ],
   },
 ];
 
