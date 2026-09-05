@@ -11,14 +11,16 @@ const experiences = [
     description:
       "Building and shipping web applications across frontend and backend systems, with hands-on experience in product development, databases, authentication, APIs, deployment, and modern JavaScript frameworks.",
     tags: [
+      "Html",
+      "CSS",
       "Next.js",
+      "TypeScript",
+      "JavaScript",
       "React",
       "React Native",
       "Expo",
       "Node.js",
       "Express",
-      "TypeScript",
-      "JavaScript",
       "PostgreSQL",
       "Prisma",
       "Socket.io",
