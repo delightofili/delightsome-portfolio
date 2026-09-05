@@ -13,7 +13,7 @@ export const projects = [
 
     image: "/projects/devflow.png",
 
-    live: "",
+    live: "https://devflow-delightsome.vercel.app/",
     github: "https://github.com/delightofili/devflow",
 
     featured: true,
