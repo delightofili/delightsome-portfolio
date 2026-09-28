@@ -1,5 +1,148 @@
 export const projects = [
   {
+    slug: "nexus-ledger",
+    title: "Nexus Ledger",
+    category: "Fintech & Blockchain Infrastructure",
+    year: "2026",
+
+    shortDescription:
+      "An enterprise-oriented financial ledger backend combining double-entry accounting, payment processing, and blockchain reconciliation.",
+
+    description:
+      "Built to explore the engineering challenges behind reliable financial systems, Nexus Ledger replaces mutable balance updates with an auditable ledger where every transaction is represented by balanced entries. It combines a REST API, relational database architecture, payment provider integrations, webhook processing, and blockchain infrastructure to demonstrate how traditional fintech systems and Web3 payment flows can work together.",
+
+    image: "/projects/nexus_ledger_preview.png",
+
+    live: "",
+    github: "https://github.com/delightofili/Nexus-Ledger",
+
+    featured: true,
+
+    stack: [
+      "Node.js",
+      "TypeScript",
+      "Express.js",
+      "PostgreSQL",
+      "Prisma",
+      "Neon",
+      "Paystack",
+      "Stripe",
+      "Ethereum",
+      "ERC-20",
+      "ethers.js",
+      "Alchemy",
+      "Zod",
+      "decimal.js",
+    ],
+
+    role: "Fullstack Developer",
+
+    overview: [
+      "Nexus Ledger is a backend financial infrastructure project designed around the principles of real-world accounting systems. It uses double-entry bookkeeping, immutable ledger entries, precise monetary arithmetic, and transactional safeguards to maintain financial consistency. The system also integrates Paystack and Stripe for payment processing and Ethereum infrastructure for crypto deposits and balance reconciliation.",
+    ],
+
+    challenges: [
+      "Ensuring financial accuracy across multiple currencies and blockchain tokens without floating-point errors.",
+      "Maintaining balanced debit and credit entries while keeping account balances consistent.",
+      "Preventing duplicate transactions when requests are retried or payment webhooks are delivered more than once.",
+      "Handling concurrent transactions safely to avoid race conditions and incorrect balances.",
+      "Preserving an immutable, traceable audit history while supporting transaction voiding.",
+      "Reconciling external payment and blockchain events with internal ledger records.",
+    ],
+
+    engineering: [
+      {
+        title: "Double-Entry Ledger Engine",
+        description:
+          "Designed a ledger engine where every financial transaction produces balanced debit and credit entries. This makes every movement of funds traceable and ensures transactions balance before they are posted.",
+      },
+
+      {
+        title: "Precision-Safe Money Handling",
+        description:
+          "Implemented monetary arithmetic using integer values in each currency's smallest unit, avoiding floating-point inaccuracies. Supports representations such as kobo, cents, wei, and USDC base units.",
+      },
+
+      {
+        title: "Immutable Financial Records",
+        description:
+          "Designed an append-only ledger with database triggers that prevent existing entries from being updated or deleted. Corrections are represented through reversal entries, preserving the original audit trail.",
+      },
+
+      {
+        title: "Idempotent Transaction Processing",
+        description:
+          "Implemented idempotency keys for state-changing operations so repeated requests can return their original results without executing the same financial transaction twice.",
+      },
+
+      {
+        title: "Concurrency Control & Row Locking",
+        description:
+          "Used PostgreSQL row-level locking to coordinate concurrent operations involving the same accounts, reducing the risk of race conditions and inconsistent financial state.",
+      },
+
+      {
+        title: "Transactional Database Architecture",
+        description:
+          "Structured accounts, transactions, entries, and payment records with PostgreSQL and Prisma, using database transactions to keep related financial operations consistent.",
+      },
+
+      {
+        title: "Payment Provider Integration",
+        description:
+          "Integrated Paystack and Stripe payment flows for payment initialization, verification, status tracking, and refunds, connecting external payment events to internal ledger operations.",
+      },
+
+      {
+        title: "Secure Webhook Processing",
+        description:
+          "Designed webhook handlers around signature verification, duplicate-event detection, raw payload storage, and decoupled processing to make payment event handling more reliable.",
+      },
+
+      {
+        title: "Ledger-Based Balance Calculation",
+        description:
+          "Computed account balances from posted ledger entries rather than relying on a mutable balance field, enabling account statements and transaction histories to be derived from the underlying records.",
+      },
+
+      {
+        title: "Transaction Reversals",
+        description:
+          "Implemented transaction voiding through compensating entries instead of modifying historical records, maintaining traceability while correcting previously posted transactions.",
+      },
+
+      {
+        title: "Ethereum Wallet Infrastructure",
+        description:
+          "Integrated ethers.js and Ethereum infrastructure to derive dedicated deposit addresses from a hierarchical deterministic wallet using BIP44-style derivation.",
+      },
+
+      {
+        title: "ERC-20 Deposit Monitoring",
+        description:
+          "Designed an event-listening and deposit-processing flow to detect ERC-20 transfers and connect on-chain deposits to internal financial records.",
+      },
+
+      {
+        title: "Crypto Balance Reconciliation",
+        description:
+          "Designed reconciliation checks that compare internal ledger balances with on-chain USDC balances and create alerts when discrepancies require investigation.",
+      },
+
+      {
+        title: "API Validation & Type Safety",
+        description:
+          "Used TypeScript and Zod to define structured application inputs and validate incoming data at runtime, improving consistency across financial API operations.",
+      },
+
+      {
+        title: "Financial REST API Design",
+        description:
+          "Organized the Express API into dedicated account, transaction, payment, webhook, and crypto routes, separating external interfaces from the core ledger engine and supporting services.",
+      },
+    ],
+  },
+  {
     slug: "devflow",
     title: "DevFlow",
     category: "FULLSTACK PRODUCT",
