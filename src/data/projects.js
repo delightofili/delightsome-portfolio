@@ -1,6 +1,200 @@
+// type decides the filter tab on /work: "health", "fullstack" or "frontend"
 export const projects = [
   {
+    slug: "prima",
+    type: "health",
+    title: "Prima",
+    category: "Digital Health · Offline First",
+    year: "2026",
+
+    shortDescription:
+      "An offline first patient register and visit record for Primary Health Centres in Nigeria.",
+
+    description:
+      "Prima lets nurses and community health workers register patients, record visits, track vaccines and prepare the monthly LGA report on a phone, with or without network. Everything saves on the device first and syncs with the cloud in the background.",
+
+    image: "/projects/prima.jpg",
+
+    live: "https://prima-landing-cut.pages.dev",
+    github: "https://github.com/delightofili/Prima",
+
+    featured: true,
+
+    stack: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Dexie (IndexedDB)",
+      "Supabase",
+      "PostgreSQL",
+      "Row Level Security",
+      "FastAPI",
+      "Python",
+      "Paystack",
+      "PWA",
+      "FHIR",
+      "DHIS2",
+      "Tailwind CSS",
+      "Zod",
+      "Cloudflare Pages",
+    ],
+
+    role: "Founder and sole developer",
+
+    overview: [
+      "Paper registers at PHCs lose patients, create duplicates and turn the monthly LGA report into a slow manual count. Many clinics also have unreliable network, so Prima saves everything on the phone first and syncs in the background.",
+      "Patient registration, visits with vitals, vaccines, follow ups and duplicate clean up.",
+      "Children linked to their guardians, so a baby's card and the mother's antenatal record finally connect.",
+      "Clinic Wi-Fi sync between phones with no internet at all, protected by a shared clinic key.",
+      "Available in English, Igbo, Hausa and Yoruba, installable on Android as a PWA.",
+      "Built in public in Enugu, day by day.",
+    ],
+
+    challenges: [
+      "Making every screen work fully offline while keeping two way sync with the cloud correct when phones reconnect.",
+      "Keeping each facility's patient records private to its own staff, with every sensitive action logged.",
+      "Letting two phones exchange missing records over local Wi-Fi with no internet, while only phones from the same clinic can join.",
+      "Taking payments safely, where the phone never decides a price or that something was paid.",
+      "Preparing for the Nigeria Data Protection Act and clinical safety before any real patient data goes in.",
+      "Designing for low end Android phones, gloves, low battery and nurses with very little time.",
+    ],
+
+    engineering: [
+      {
+        title: "Offline First Data Layer",
+        description:
+          "Every record is written to IndexedDB through Dexie first, then queued for upload. The app never waits on the network to save, and a newer copy of a record always wins over a late older one.",
+      },
+      {
+        title: "Phone to Phone Clinic Sync",
+        description:
+          "Two phones pair with QR codes and swap the records each is missing over the clinic Wi-Fi. Each phone must prove it holds the clinic key, which rotates by itself when someone leaves the team.",
+      },
+      {
+        title: "Row Level Security per Facility",
+        description:
+          "Supabase Auth with Postgres row level security keeps each facility's records private to its staff, with roles, a passcode lock and an audit log of sensitive actions.",
+      },
+      {
+        title: "Guardian and Family Links",
+        description:
+          "Children are linked to their guardians, a phone search shows the guardian and their children, and a mother's antenatal record connects to her baby's card.",
+      },
+      {
+        title: "FHIR and DHIS2 Export",
+        description:
+          "Records export to FHIR, with guardians as RelatedPerson, and to DHIS2 for health reporting, alongside an automatic monthly LGA summary.",
+      },
+      {
+        title: "Server Side Payments",
+        description:
+          "Paystack plans run through Supabase Edge Functions. The server picks the price, verifies payment with Paystack directly, checks the webhook signature, and only then changes the plan.",
+      },
+      {
+        title: "Four Languages, No Extra Packages",
+        description:
+          "A small translation framework keeps every sentence in one English dictionary, with Igbo, Hausa and Yoruba loaded only when chosen, so it still works offline.",
+      },
+      {
+        title: "Python Matching Service",
+        description:
+          "A FastAPI service handles duplicate patient matching and the LGA report, with on device fallbacks so the app never breaks when the service is down.",
+      },
+      {
+        title: "Data Protection and Safety Gate",
+        description:
+          "An automated gate checks the database and the codebase for patient data leaks, alongside written Nigeria Data Protection Act and clinical safety documents that must be signed off before real data.",
+      },
+    ],
+  },
+  {
+    slug: "medcore-hms",
+    type: "health",
+    title: "MedCore HMS",
+    category: "Digital Health · Hospital Management",
+    year: "2026",
+
+    shortDescription:
+      "A multi tenant hospital management system covering the full outpatient journey, from reception to billing.",
+
+    description:
+      "MedCore HMS covers registration, booking, check in, consultation notes with vitals, prescriptions and billing, with every hospital's data kept fully separate. Built as my project for the Internmo Full Stack Development Internship.",
+
+    image: "/projects/medcore-hms.jpg",
+
+    live: "https://medcore-hms-delightsome.vercel.app",
+    github: "https://github.com/delightofili/medcore-hms",
+
+    featured: true,
+
+    stack: [
+      "NestJS",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "PostgreSQL",
+      "Prisma",
+      "Redis",
+      "JWT",
+      "React Hook Form",
+      "Zod",
+      "Docker Compose",
+      "pnpm workspaces",
+      "Tailwind CSS",
+    ],
+
+    role: "Fullstack Developer (Internmo internship)",
+
+    overview: [
+      "Reception registers the patient and books them into an open slot with their doctor.",
+      "On arrival the patient is checked in, then the doctor records vitals and notes and signs the record, which locks it.",
+      "Prescriptions go to the pharmacy to be dispensed, and billing raises invoices and records full or part payments.",
+      "Nine roles, each seeing only what they should, across many hospitals in one system.",
+    ],
+
+    challenges: [
+      "Stopping two receptionists from booking the same doctor slot at the same moment.",
+      "Keeping every hospital's data completely separate inside one shared database.",
+      "Modelling clinical and billing workflows so records can only move through valid states.",
+      "Keeping sessions secure without making staff sign in again and again.",
+    ],
+
+    engineering: [
+      {
+        title: "No Double Booking",
+        description:
+          "Booking runs inside a SERIALIZABLE Postgres transaction that checks schedules, leave and overlapping appointments. If two bookings race, one is rejected with a clear message instead of a silent clash.",
+      },
+      {
+        title: "State Machines for Every Workflow",
+        description:
+          "Appointments, prescriptions and invoices each have an explicit table of allowed transitions, and updates match on the current status so concurrent changes cannot corrupt a record.",
+      },
+      {
+        title: "Multi Tenant Access Control",
+        description:
+          "Every request is checked against the user's hospital, with role based access for nine roles enforced on the server and reflected in the UI.",
+      },
+      {
+        title: "Rotating Refresh Tokens",
+        description:
+          "Short lived JWT access tokens with silent refresh, and refresh tokens stored in Redis and rotated on every use.",
+      },
+      {
+        title: "Signed Clinical Records",
+        description:
+          "Consultations move from draft to signed, need a diagnosis to be signed, and cannot be edited afterwards. Allergy warnings appear on the patient page and again during consultation.",
+      },
+      {
+        title: "Safe Payments",
+        description:
+          "Invoices support part payments with overpayment protection, and idempotency keys stop a double click from recording the same payment twice.",
+      },
+    ],
+  },
+  {
     slug: "nexus-ledger",
+    type: "fullstack",
     title: "Nexus Ledger",
     category: "Fintech & Blockchain Infrastructure",
     year: "2026",
@@ -144,6 +338,7 @@ export const projects = [
   },
   {
     slug: "devflow",
+    type: "fullstack",
     title: "DevFlow",
     category: "FULLSTACK PRODUCT",
     year: "2026",
@@ -275,6 +470,7 @@ export const projects = [
   },
   {
     slug: "lovequest",
+    type: "fullstack",
     title: "LoveQuest",
     category: "FULLSTACK PRODUCT",
     year: "2026",
@@ -343,6 +539,7 @@ export const projects = [
 
   {
     slug: "delresumeai",
+    type: "fullstack",
     title: "DelResumeAI",
     category: "FULLSTACK SAAS",
     year: "2026",
@@ -411,6 +608,7 @@ export const projects = [
 
   {
     slug: "far-away",
+    type: "frontend",
     title: "Far Away App",
     category: "Travel & Productivity",
     year: "2025",
@@ -451,6 +649,7 @@ export const projects = [
 
   {
     slug: "expense-tracker",
+    type: "frontend",
     title: "Expense Tracker",
     category: "Finance & Productivity",
     year: "2025",

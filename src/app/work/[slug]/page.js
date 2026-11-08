@@ -1,166 +1,123 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { FaGithub } from "react-icons/fa";
 import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowUpRight, HeartPulse } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import { projects } from "@/data/projects";
+import Footer from "../../components/Footer";
+import Reveal from "../../components/Reveal";
 
+// builds every case study page at build time, so they load instantly
 export async function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  return projects.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-
-  const project = projects.find((project) => project.slug === slug);
-
-  if (!project) {
-    return {
-      title: "Project not found",
-    };
-  }
-
+  const project = projects.find((p) => p.slug === slug);
+  if (!project) return { title: "Project not found" };
   return {
-    title: `${project.title} — Chukwunonso Ofili`,
-    description: project.description,
+    title: `${project.title} | Chukwunonso Ofili`,
+    description: project.shortDescription,
+    openGraph: { images: [project.image] },
   };
 }
 
 export default async function ProjectPage({ params }) {
   const { slug } = await params;
+  const index = projects.findIndex((p) => p.slug === slug);
+  if (index === -1) notFound();
 
-  const project = projects.find((project) => project.slug === slug);
-
-  if (!project) {
-    notFound();
-  }
+  const project = projects[index];
+  // the next project loops back to the first one at the end
+  const next = projects[(index + 1) % projects.length];
 
   return (
-    <main className="min-h-screen bg-white text-neutral-950">
-      {/* Header */}
-      <section className="px-5 pb-20 pt-32 sm:px-8 lg:px-12">
+    <main>
+      <section className="px-5 pb-16 pt-36 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-6xl">
           <Link
             href="/work"
-            className="mb-14 inline-flex items-center gap-2 text-sm text-neutral-500 transition-colors hover:text-neutral-950"
+            className="mb-12 inline-flex items-center gap-2 font-semibold text-neutral-500 hover:text-brand"
           >
-            <ArrowLeft size={16} />
-            Back to work
+            <ArrowLeft size={18} /> All projects
           </Link>
 
-          {/* Category */}
-          <div className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-neutral-400">
-            <span>{project.category}</span>
-
-            <span className="h-1 w-1 rounded-full bg-neutral-300" />
-
-            <span>{project.year}</span>
-          </div>
-
-          {/* Title */}
-          <h1 className="max-w-5xl text-6xl font-medium tracking-[-0.06em] sm:text-7xl lg:text-[9rem] lg:leading-[0.9]">
-            {project.title}
-          </h1>
-
-          <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <p className="max-w-2xl text-lg leading-8 text-neutral-500 sm:text-xl">
-              {project.description}
-            </p>
-
-            <div className="flex shrink-0 gap-3">
-              <Link
-                href={project.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-neutral-950 px-6 py-3 text-sm !text-white transition-transform hover:-translate-y-1"
-              >
-                Live project
-                <ArrowUpRight size={16} />
-              </Link>
-
-              <Link
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-neutral-200 px-6 py-3 text-sm transition-all hover:-translate-y-1 hover:border-neutral-950"
-              >
-                <FaGithub size={16} />
-                GitHub
-              </Link>
+          <Reveal>
+            <div className="mb-6 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-neutral-500">
+              {project.type === "health" && (
+                <span className="flex items-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-white">
+                  <HeartPulse size={14} /> Health tech
+                </span>
+              )}
+              <span>{project.category}</span>
+              <span className="h-1 w-1 rounded-full bg-brand" />
+              <span>{project.year}</span>
             </div>
-          </div>
+
+            <h1 className="font-display text-6xl font-bold tracking-[-0.05em] sm:text-8xl lg:text-[9rem] lg:leading-[0.88]">
+              {project.title}
+              <span className="text-brand">.</span>
+            </h1>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+              <p className="max-w-2xl text-lg leading-8 text-neutral-600 sm:text-xl sm:leading-9">
+                {project.description}
+              </p>
+              <Links project={project} />
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Hero image */}
       <section className="px-5 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-6xl">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-[28px] bg-neutral-100">
+        <Reveal className="mx-auto max-w-6xl">
+          <div className="relative aspect-[16/10] overflow-hidden rounded-[32px] border border-line bg-white">
             <Image
               src={project.image}
               alt={`${project.title} screenshot`}
               fill
               priority
               className="object-cover"
-              sizes="100vw"
+              sizes="(max-width: 1200px) 100vw, 1152px"
             />
           </div>
-        </div>
+        </Reveal>
       </section>
 
-      {/* Project overview */}
       <section className="px-5 py-24 sm:px-8 lg:px-12">
-        <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[0.7fr_1.3fr]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">
-              Overview
-            </p>
-          </div>
-
-          <div>
-            <h2 className="max-w-3xl text-3xl font-medium tracking-[-0.04em] sm:text-4xl">
-              I designed and engineered this product from the ground up.
-            </h2>
-
-            <div className="mt-8 space-y-4">
-              {project.overview.map((item) => (
-                <div
-                  key={item}
-                  className="flex gap-4 border-b border-neutral-100 pb-4"
-                >
-                  <span className="text-sm text-neutral-400">→</span>
-
-                  <p className="text-neutral-600">{item}</p>
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.6fr_1.4fr]">
+          <Label>Overview</Label>
+          <div className="space-y-4">
+            {project.overview.map((item) => (
+              <Reveal key={item}>
+                <div className="flex gap-4 border-b border-line pb-4">
+                  <span className="text-brand">→</span>
+                  <p className="leading-7 text-neutral-700">{item}</p>
                 </div>
-              ))}
-            </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Role + Stack */}
-      <section className="border-y border-neutral-100 bg-neutral-50 px-5 py-16 sm:px-8 lg:px-12">
-        <div className="mx-auto grid max-w-6xl gap-12 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="border-y border-line bg-white px-5 py-16 sm:px-8 lg:px-12">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.6fr_1.4fr]">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-neutral-400">
-              My role
+            <Label>My role</Label>
+            <p className="mt-3 font-display text-2xl font-bold">
+              {project.role}
             </p>
-
-            <p className="mt-3 text-lg">{project.role}</p>
           </div>
-
-          <div className="sm:col-span-2">
-            <p className="text-xs uppercase tracking-[0.2em] text-neutral-400">
-              Technology
-            </p>
-
+          <div>
+            <Label>Technology</Label>
             <div className="mt-4 flex flex-wrap gap-2">
               {project.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-full bg-white px-4 py-2 text-sm text-neutral-700 shadow-sm"
+                  className="rounded-full bg-brand-soft px-4 py-2 text-sm font-semibold text-ink"
                 >
                   {tech}
                 </span>
@@ -170,97 +127,121 @@ export default async function ProjectPage({ params }) {
         </div>
       </section>
 
-      {/* Challenges */}
       <section className="px-5 py-24 sm:px-8 lg:px-12">
-        <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[0.7fr_1.3fr]">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.6fr_1.4fr]">
+          <Label>The challenge</Label>
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">
-              The challenge
-            </p>
-          </div>
-
-          <div>
-            <h2 className="max-w-3xl text-3xl font-medium tracking-[-0.04em] sm:text-4xl">
-              Building something simple on the surface usually requires solving
-              complicated problems underneath.
+            <h2 className="max-w-3xl font-display text-3xl font-bold tracking-tight sm:text-4xl">
+              Simple on the surface usually means hard problems underneath.
             </h2>
-
-            <div className="mt-10 space-y-5">
-              {project.challenges.map((challenge, index) => (
-                <div key={challenge} className="flex gap-5">
-                  <span className="text-sm text-neutral-400">0{index + 1}</span>
-
-                  <p className="max-w-2xl leading-7 text-neutral-600">
-                    {challenge}
-                  </p>
-                </div>
+            <div className="mt-10 space-y-6">
+              {project.challenges.map((c, i) => (
+                <Reveal key={c}>
+                  <div className="flex gap-5">
+                    <span className="font-display text-lg font-bold text-brand">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="max-w-2xl leading-7 text-neutral-700">{c}</p>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Engineering */}
-      <section className="bg-neutral-950 px-5 py-24 text-white sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-16">
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-500">
+      {/* some small projects have no engineering list, so the section only shows when there is one */}
+      {project.engineering?.length > 0 && (
+        <section className="bg-ink px-5 py-24 text-white sm:px-8 lg:px-12">
+          <div className="mx-auto max-w-6xl">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand">
               Engineering
             </p>
-
-            <h2 className="mt-5 max-w-3xl text-4xl font-medium tracking-[-0.05em] sm:text-5xl">
+            <h2 className="mt-5 max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-5xl">
               What&apos;s happening under the hood.
             </h2>
+            <div className="mt-14 grid gap-px overflow-hidden rounded-[28px] border border-white/10 bg-white/10 sm:grid-cols-2">
+              {project.engineering.map((item, i) => (
+                <div
+                  key={item.title}
+                  className="bg-ink p-8 transition-colors hover:bg-[#1a1a1a] sm:p-10"
+                >
+                  <span className="font-display font-bold text-brand">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-10 font-display text-xl font-bold">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 leading-7 text-white/65">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
+        </section>
+      )}
 
-          <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2">
-            {project.engineering?.map((item, index) => (
-              <div
-                key={item.title}
-                className="bg-neutral-950 p-8 transition-colors hover:bg-neutral-900 sm:p-10"
-              >
-                <span className="text-sm text-neutral-600">0{index + 1}</span>
-
-                <h3 className="mt-12 text-xl font-medium">{item.title}</h3>
-
-                <p className="mt-4 leading-7 text-neutral-400">
-                  {item.description}
-                </p>
-              </div>
-            ))}
+      {/* next project teaser keeps people moving through the work */}
+      <section className="px-5 py-24 sm:px-8 lg:px-12">
+        <Link
+          href={`/work/${next.slug}`}
+          data-cursor="Next"
+          data-cursor-light
+          className="group mx-auto block max-w-6xl rounded-[32px] bg-brand p-10 text-white sm:p-16"
+        >
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-white/80">
+            Next project
+          </p>
+          <div className="mt-4 flex items-end justify-between gap-6">
+            <h2 className="font-display text-5xl font-bold tracking-tight sm:text-7xl">
+              {next.title}
+            </h2>
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white text-brand transition-transform group-hover:-rotate-45">
+              <ArrowUpRight size={26} />
+            </span>
           </div>
-        </div>
+        </Link>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="px-5 py-28 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-6xl text-center">
-          <p className="text-sm text-neutral-400">Interested in the project?</p>
-
-          <h2 className="mt-4 text-4xl font-medium tracking-[-0.05em] sm:text-6xl">
-            Explore it yourself.
-          </h2>
-
-          <div className="mt-8 flex justify-center gap-3">
-            <Link
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-neutral-950 px-6 py-3 text-sm !text-white"
-            >
-              Visit live site
-              <ArrowUpRight size={16} />
-            </Link>
-
-            <Link
-              href="/work"
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-200 px-6 py-3 text-sm"
-            >
-              More projects
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Footer />
     </main>
+  );
+}
+
+function Label({ children }) {
+  return (
+    <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand">
+      {children}
+    </p>
+  );
+}
+
+function Links({ project }) {
+  return (
+    <div className="flex shrink-0 flex-wrap gap-3">
+      {project.live ? (
+        <a
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-dark"
+        >
+          Live site <ArrowUpRight size={18} />
+        </a>
+      ) : (
+        <span className="rounded-full border border-line px-6 py-3 font-semibold text-neutral-500">
+          Deploying soon
+        </span>
+      )}
+      <a
+        href={project.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 rounded-full border-2 border-ink px-6 py-[10px] font-semibold hover:bg-ink hover:text-white"
+      >
+        <FaGithub size={18} /> Code
+      </a>
+    </div>
   );
 }

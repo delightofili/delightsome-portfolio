@@ -1,104 +1,66 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
-export default function SplashScreen({ onComplete }) {
+export default function SplashScreen({ onDone }) {
+  const [count, setCount] = useState(0);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    const duration = 1300; // ms for the counter to reach 100
+    const start = performance.now();
+    let frame;
+
+    // requestAnimationFrame keeps the count smooth and in sync with the screen
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease out: fast start, soft finish
+      setCount(Math.round(eased * 100));
+      if (progress < 1) frame = requestAnimationFrame(tick);
+      else setTimeout(() => setDone(true), 250); // short pause on 100 before leaving
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
-    <motion.div
-      className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden"
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 1 }}
-      onAnimationComplete={onComplete}
-    >
-      {/* TOP PAPER */}
-      <motion.div
-        className="absolute inset-x-0 top-0 h-1/2 bg-[#f5f1eb]"
-        initial={{ y: 0 }}
-        animate={{ y: "-100%" }}
-        transition={{
-          duration: 1.25,
-          ease: [0.76, 0, 0.24, 1],
-          delay: 0.25,
-        }}
-      >
-        {/* Torn brown edge */}
-        <div
-          className="absolute bottom-[-7px] left-0 w-full h-[15px]"
-          style={{
-            background: `
-              linear-gradient(
-                90deg,
-                transparent 0%,
-                #3b2a20 4%,
-                #4a3326 8%,
-                #34251d 13%,
-                #4a3326 18%,
-                #33231b 23%,
-                #4a3326 28%,
-                #35251d 34%,
-                #4a3326 40%,
-                #32221a 46%,
-                #4a3326 52%,
-                #35251d 58%,
-                #4a3326 64%,
-                #34241c 70%,
-                #4a3326 76%,
-                #33231b 82%,
-                #4a3326 88%,
-                #35251d 94%,
-                transparent 100%
-              )
-            `,
-            clipPath:
-              "polygon(0 45%, 4% 60%, 8% 35%, 12% 65%, 16% 42%, 20% 58%, 24% 30%, 28% 60%, 32% 40%, 36% 68%, 40% 35%, 44% 55%, 48% 30%, 52% 65%, 56% 42%, 60% 58%, 64% 35%, 68% 62%, 72% 38%, 76% 58%, 80% 32%, 84% 65%, 88% 40%, 92% 60%, 96% 35%, 100% 50%, 100% 100%, 0 100%)",
-          }}
-        />
-      </motion.div>
+    // onExitComplete fires once the curtain has fully left the screen
+    <AnimatePresence onExitComplete={onDone}>
+      {!done && (
+        <motion.div
+          key="splash"
+          // the whole orange sheet slides up and away like a curtain
+          exit={{ y: "-100%" }}
+          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+          className="fixed inset-0 z-[9999] flex flex-col justify-between bg-brand p-6 text-white sm:p-10"
+        >
+          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em]">
+            <span>Delightsome</span>
+            <span>Portfolio 2026</span>
+          </div>
 
-      {/* BOTTOM PAPER */}
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-1/2 bg-[#f5f1eb]"
-        initial={{ y: 0 }}
-        animate={{ y: "100%" }}
-        transition={{
-          duration: 1.25,
-          ease: [0.76, 0, 0.24, 1],
-          delay: 0.25,
-        }}
-      >
-        {/* Torn brown edge */}
-        <div
-          className="absolute top-[-7px] left-0 w-full h-[15px]"
-          style={{
-            background: `
-              linear-gradient(
-                90deg,
-                transparent 0%,
-                #3b2a20 4%,
-                #4a3326 8%,
-                #34251d 13%,
-                #4a3326 18%,
-                #33231b 23%,
-                #4a3326 28%,
-                #35251d 34%,
-                #4a3326 40%,
-                #32221a 46%,
-                #4a3326 52%,
-                #35251d 58%,
-                #4a3326 64%,
-                #34241c 70%,
-                #4a3326 76%,
-                #33231b 82%,
-                #4a3326 88%,
-                #35251d 94%,
-                transparent 100%
-              )
-            `,
-            clipPath:
-              "polygon(0 55%, 4% 40%, 8% 65%, 12% 35%, 16% 58%, 20% 42%, 24% 70%, 28% 40%, 32% 60%, 36% 32%, 40% 65%, 44% 45%, 48% 70%, 52% 35%, 56% 58%, 60% 42%, 64% 65%, 68% 38%, 72% 62%, 76% 42%, 80% 68%, 84% 35%, 88% 60%, 92% 40%, 96% 65%, 100% 50%, 100% 0, 0 0)",
-          }}
-        />
-      </motion.div>
-    </motion.div>
+          <div className="overflow-hidden">
+            <motion.p
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display text-4xl font-semibold tracking-tight sm:text-6xl"
+            >
+              Health tech. Fullstack.
+            </motion.p>
+          </div>
+
+          <div className="flex items-end justify-between">
+            <span className="text-sm font-medium">Loading the good stuff</span>
+            {/* tabular-nums stops the numbers from jumping in width */}
+            <span className="font-display text-[22vw] font-bold leading-[0.8] tabular-nums sm:text-[14vw]">
+              {count}
+            </span>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

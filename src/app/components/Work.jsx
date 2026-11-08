@@ -1,248 +1,310 @@
 "use client";
-import { FaGithub } from "react-icons/fa";
-import { projects } from "../../data/projects";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import { useState } from "react";
-const PROJECTS_PER_PAGE = 2;
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowUpRight, HeartPulse } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import { projects } from "@/data/projects";
+import Magnetic from "./Magnetic";
 
+const filters = [
+  { id: "all", label: "All" },
+  { id: "health", label: "Health tech" },
+  { id: "fullstack", label: "Fullstack" },
+  { id: "frontend", label: "Frontend" },
+];
+
+const health = projects.filter((p) => p.type === "health");
+const others = projects.filter((p) => p.type !== "health");
+
+// showAll is true on the /work page, false on the home page
 export default function Work({ showAll = false }) {
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
-
-  const visibleProjects = showAll
-    ? projects.slice(
-        currentPage * PROJECTS_PER_PAGE,
-        (currentPage + 1) * PROJECTS_PER_PAGE,
-      )
-    : projects.slice(0, PROJECTS_PER_PAGE);
-
-  const nextPage = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage((prev) => prev + 1);
-      window.scrollTo({
-        top: document.getElementById("work")?.offsetTop - 80 || 0,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const previousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage((prev) => prev - 1);
-      window.scrollTo({
-        top: document.getElementById("work")?.offsetTop - 80 || 0,
-        behavior: "smooth",
-      });
-    }
-  };
+  const [filter, setFilter] = useState("all");
+  const filtered =
+    filter === "all" ? projects : projects.filter((p) => p.type === filter);
 
   return (
-    <section id="work" className="w-full bg-white px-5 py-24 sm:px-8 lg:px-12">
+    <section id="work" className="px-5 py-28 sm:px-8 lg:px-12">
       <div className="mx-auto max-w-7xl">
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-14"
-        >
-          <p className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
-            Selected work
-          </p>
+        <SectionHeading
+          eyebrow="Selected work"
+          title={showAll ? "Everything I've built." : "Things I've built."}
+          text="Health tools for real clinics, and fullstack products shipped from idea to deploy."
+        />
 
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <h2 className="text-5xl font-medium tracking-[-0.05em] text-neutral-950 sm:text-6xl">
-                Things I&apos;ve built.
-              </h2>
-
-              <p className="mt-5 max-w-xl text-base leading-7 text-neutral-500 sm:text-lg">
-                A collection of products and applications I&apos;ve designed,
-                engineered, and shipped from idea to deployment.
-              </p>
+        {showAll ? (
+          <>
+            {/* filter tabs with the same sliding pill idea as the navbar */}
+            <div className="mb-12 flex flex-wrap gap-2">
+              {filters.map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => setFilter(f.id)}
+                  className="relative rounded-full border border-line px-5 py-2.5 text-sm font-semibold"
+                >
+                  {filter === f.id && (
+                    <motion.span
+                      layoutId="work-filter"
+                      className="absolute inset-0 rounded-full bg-brand"
+                    />
+                  )}
+                  <span
+                    className={`relative ${filter === f.id ? "text-white" : "text-neutral-600"}`}
+                  >
+                    {f.label}
+                  </span>
+                </button>
+              ))}
             </div>
 
-            {/* Only homepage gets this */}
-            {!showAll && projects.length > 4 && (
-              <Link
-                href="/work"
-                className="group inline-flex w-fit items-center gap-2 rounded-full border border-neutral-200 px-5 py-3 text-sm text-neutral-700 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white"
-              >
-                View more works
-                <ArrowUpRight
-                  size={15}
-                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            {/* layout lets the cards glide into their new spots when the filter changes */}
+            <motion.div layout className="grid gap-x-8 gap-y-14 md:grid-cols-2">
+              <AnimatePresence mode="popLayout">
+                {filtered.map((project) => (
+                  <ProjectCard key={project.slug} project={project} />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </>
+        ) : (
+          <>
+            <div className="mb-8 flex items-center gap-3 text-sm font-bold uppercase tracking-[0.25em] text-brand">
+              <HeartPulse size={18} /> Digital health
+            </div>
+            <div className="space-y-24">
+              {health.map((project, i) => (
+                <FeatureRow
+                  key={project.slug}
+                  project={project}
+                  flip={i % 2 === 1}
                 />
-              </Link>
-            )}
-          </div>
-        </motion.div>
+              ))}
+            </div>
 
-        {/* Projects */}
-        <motion.div layout className="grid gap-10 md:grid-cols-2">
-          {visibleProjects.map((project, index) => (
-            <motion.article
-              layout
-              key={project.slug}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.08,
-              }}
-              className="group"
-            >
-              {/* Image */}
-              <Link href={`/work/${project.slug}`} className="block">
-                <div className="relative overflow-hidden rounded-[26px] bg-neutral-100">
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={`${project.title} project preview`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.035] group-hover:-translate-y-[2px]"
-                    />
-
-                    {/* Subtle hover layer */}
-                    <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/[0.035]" />
-
-                    {/* Featured */}
-                    {project.featured && (
-                      <div className="absolute left-5 top-5 rounded-full border border-white/70 bg-white/90 px-4 py-2 text-xs font-medium text-neutral-800 shadow-sm backdrop-blur">
-                        Featured project
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Link>
-
-              {/* Info */}
-              <div className="mt-5">
-                <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400">
-                  <span>{project.category}</span>
-                  <span className="h-1 w-1 rounded-full bg-neutral-300" />
-                  {project.live ? <span>Live</span> : <span>not live yet</span>}
-                </div>
-
-                <div className="mt-3 flex items-start justify-between gap-5">
-                  <div>
-                    <Link href={`/work/${project.slug}`}>
-                      <h3 className="text-3xl font-medium tracking-[-0.04em] text-neutral-950 transition-colors group-hover:text-neutral-600">
-                        {project.title}
-                      </h3>
-                    </Link>
-
-                    <p className="mt-2 max-w-lg text-sm leading-6 text-neutral-500">
-                      {project.description}
-                    </p>
-                  </div>
-
-                  {/* Arrow */}
-                  <Link
-                    href={`/work/${project.slug}`}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-neutral-200 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-950 hover:bg-neutral-950 hover:!text-white"
-                  >
-                    <ArrowUpRight size={16} />
-                  </Link>
-                </div>
-
-                {/* Stack */}
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.stack.map((technology) => (
-                    <span
-                      key={technology}
-                      className="rounded-full border border-neutral-200 px-3 py-1.5 text-[11px] text-neutral-500"
-                    >
-                      {technology}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Buttons */}
-                <div className="mt-5 flex gap-2">
-                  {/* Internal link — SAME TAB */}
-                  <Link
-                    href={`/work/${project.slug}`}
-                    className="rounded-full bg-neutral-950 px-5 py-2.5 text-xs font-medium !text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-800"
-                  >
-                    View project
-                  </Link>
-
-                  {/* External link */}
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-xs font-medium text-neutral-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-neutral-400"
-                  >
-                    <FaGithub size={14} />
-                    GitHub
-                  </a>
-                </div>
-              </div>
-            </motion.article>
-          ))}
-        </motion.div>
-
-        {/* Pagination */}
-        {showAll && totalPages > 1 && (
-          <div className="mt-20 flex items-center justify-center gap-3">
-            <button
-              onClick={previousPage}
-              disabled={currentPage === 0}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-3 text-sm text-neutral-700 transition-all hover:border-neutral-950 disabled:cursor-not-allowed disabled:opacity-30"
-            >
-              <ArrowLeft size={15} />
-              Previous
-            </button>
-
-            <span className="px-3 text-xs text-neutral-400">
-              {currentPage + 1} / {totalPages}
-            </span>
-
-            <button
-              onClick={nextPage}
-              disabled={currentPage === totalPages - 1}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-3 text-sm text-neutral-700 transition-all hover:border-neutral-950 disabled:cursor-not-allowed disabled:opacity-30"
-            >
-              Next
-              <ArrowRight size={15} />
-            </button>
-          </div>
+            <div className="mb-8 mt-28 text-sm font-bold uppercase tracking-[0.25em] text-neutral-500">
+              More builds
+            </div>
+            <div className="grid gap-x-8 gap-y-14 md:grid-cols-2">
+              {others.slice(0, 4).map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
+            </div>
+          </>
         )}
 
-        {/* Bottom GitHub */}
-        <div className="mt-16 flex  justify-center gap-4">
-          <Link
-            href="/work"
-            className="group inline-flex w-fit items-center gap-2 rounded-full border border-neutral-200 px-5 py-3 text-sm text-neutral-700 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-950 hover:bg-neutral-950 hover:!text-white"
-          >
-            View more works
-            <ArrowUpRight
-              size={15}
-              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            />
-          </Link>
-          <a
-            href="https://github.com/delightofili"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full border border-neutral-200 px-6 py-3 text-sm text-neutral-700 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-950 hover:bg-neutral-950 hover:!text-white"
-          >
-            Explore more on GitHub
-            <ArrowUpRight
-              size={15}
-              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            />
-          </a>
+        <div className="mt-20 flex flex-wrap justify-center gap-4">
+          {!showAll && (
+            <Magnetic>
+              <Link
+                href="/work"
+                className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 font-semibold text-white transition-colors hover:bg-brand"
+              >
+                See all {projects.length} projects
+                <ArrowUpRight
+                  size={18}
+                  className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </Link>
+            </Magnetic>
+          )}
+          <Magnetic>
+            <a
+              href="https://github.com/delightofili"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-ink px-7 py-[14px] font-semibold transition-colors hover:bg-ink hover:text-white"
+            >
+              <FaGithub size={18} /> More on GitHub
+            </a>
+          </Magnetic>
         </div>
       </div>
     </section>
+  );
+}
+
+export function SectionHeading({ eyebrow, title, text, light = false }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="mb-16"
+    >
+      <p
+        className={`mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] ${light ? "text-white/70" : "text-brand"}`}
+      >
+        <span className={`h-px w-8 ${light ? "bg-white/70" : "bg-brand"}`} />
+        {eyebrow}
+      </p>
+      <h2 className="font-display text-5xl font-bold tracking-[-0.04em] sm:text-6xl lg:text-7xl">
+        {title}
+      </h2>
+      {text && (
+        <p
+          className={`mt-5 max-w-xl text-lg leading-8 ${light ? "text-white/80" : "text-neutral-600"}`}
+        >
+          {text}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
+// big alternating row used for the two health projects on the home page
+function FeatureRow({ project, flip }) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16"
+    >
+      <Link
+        href={`/work/${project.slug}`}
+        data-cursor="View"
+        className={`group relative block overflow-hidden rounded-[32px] border border-line bg-white ${flip ? "lg:order-2" : ""}`}
+      >
+        <div className="relative aspect-[16/10]">
+          <Image
+            src={project.image}
+            alt={`${project.title} preview`}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
+          />
+        </div>
+        <span className="absolute bottom-4 right-4 rounded-full bg-brand px-4 py-2 text-xs font-bold uppercase tracking-wider text-white">
+          {project.live ? "Live" : "In progress"}
+        </span>
+      </Link>
+
+      <div>
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-neutral-500">
+          {project.category} · {project.year}
+        </p>
+        <h3 className="mt-4 font-display text-5xl font-bold tracking-[-0.04em] sm:text-6xl">
+          {project.title}
+        </h3>
+        <p className="mt-5 max-w-lg text-lg leading-8 text-neutral-600">
+          {project.shortDescription}
+        </p>
+
+        <div className="mt-6 flex flex-wrap gap-2">
+          {project.stack.slice(0, 8).map((tech) => (
+            <span
+              key={tech}
+              className="rounded-full border border-line bg-white px-3 py-1.5 text-xs font-semibold text-neutral-600"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <ProjectLinks project={project} />
+      </div>
+    </motion.article>
+  );
+}
+
+function ProjectCard({ project }) {
+  return (
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link
+        href={`/work/${project.slug}`}
+        data-cursor="View"
+        className="group relative block overflow-hidden rounded-[28px] border border-line bg-white"
+      >
+        <div className="relative aspect-[16/10]">
+          <Image
+            src={project.image}
+            alt={`${project.title} preview`}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
+          />
+        </div>
+        {project.type === "health" && (
+          <span className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-white">
+            <HeartPulse size={14} /> Health tech
+          </span>
+        )}
+      </Link>
+
+      <div className="mt-6 flex items-start justify-between gap-4">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-500">
+            {project.category} · {project.live ? "Live" : "In progress"}
+          </p>
+          <h3 className="mt-2 font-display text-3xl font-bold tracking-[-0.03em]">
+            {project.title}
+          </h3>
+          <p className="mt-2 max-w-lg leading-7 text-neutral-600">
+            {project.shortDescription}
+          </p>
+        </div>
+        <Link
+          href={`/work/${project.slug}`}
+          aria-label={`Open ${project.title}`}
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line bg-white transition-all hover:-rotate-45 hover:border-brand hover:bg-brand hover:text-white"
+        >
+          <ArrowUpRight size={18} />
+        </Link>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {project.stack.slice(0, 6).map((tech) => (
+          <span
+            key={tech}
+            className="rounded-full border border-line px-3 py-1 text-[11px] font-semibold text-neutral-500"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </motion.article>
+  );
+}
+
+function ProjectLinks({ project }) {
+  return (
+    <div className="mt-8 flex flex-wrap gap-3">
+      <Link
+        href={`/work/${project.slug}`}
+        className="rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand"
+      >
+        Case study
+      </Link>
+      {/* only show the live button when there is a live link */}
+      {project.live && (
+        <a
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3 text-sm font-semibold hover:border-brand hover:text-brand"
+        >
+          Live site <ArrowUpRight size={16} />
+        </a>
+      )}
+      <a
+        href={project.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3 text-sm font-semibold hover:border-brand hover:text-brand"
+      >
+        <FaGithub size={16} /> Code
+      </a>
+    </div>
   );
 }

@@ -1,53 +1,100 @@
 @import "tailwindcss";
 
-:root {
-  --background: #fdfdfc;
-  --foreground: #111111;
-  --muted: #737373;
-  --border: #e8e8e5;
-  --card: #ffffff;
+/* Design tokens: Tailwind v4 turns each --color-* into classes like bg-brand, text-ink */
+@theme {
+  --color-brand: #ff5a1f; /* main orange */
+  --color-brand-dark: #e64a12; /* hover state for orange buttons */
+  --color-brand-soft: #fff1ea; /* very light orange for tinted surfaces */
+  --color-ink: #0f0f0f; /* near black for text and dark sections */
+  --color-paper: #fffaf6; /* warm white page background */
+  --color-line: #ece6e1; /* hairline borders */
+
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-manrope), sans-serif;
+
+  /* infinite marquee keyframes, used by the Marquee component */
+  --animate-marquee: marquee var(--marquee-speed, 30s) linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
-* {
-  box-sizing: border-box;
+/* base styles live in @layer base so Tailwind classes like text-white can override them */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* clip stops wide moving parts (marquee, chips) from creating a sideways scroll on phones */
+    overflow-x: clip;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  /* faint dotted grid behind everything, flat dots, no gradient wash */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image: radial-gradient(#0f0f0f14 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+/* only when the custom cursor is active (mouse devices) hide the system cursor */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
 }
 
-body {
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-manrope), sans-serif;
-  -webkit-font-smoothing: antialiased;
+/* thin orange scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand);
+  border-radius: 99px;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.35;
-  background-image: radial-gradient(
-    rgba(0, 0, 0, 0.07) 0.7px,
-    transparent 0.7px
-  );
-  background-size: 18px 18px;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  font: inherit;
-}
-
-::selection {
-  background: #111111;
-  color: #ffffff;
+/* people who turn off motion in their system settings get a calm site */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee {
+    animation: none;
+  }
 }

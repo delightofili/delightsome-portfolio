@@ -1,151 +1,166 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { FaGithub } from "react-icons/fa";
+import { animate, motion, useInView } from "motion/react";
+import { FaGithub, FaLinkedin, FaTiktok } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { FaTiktok } from "react-icons/fa";
+
+const stats = [
+  { value: 4, suffix: "+", label: "Years writing code" },
+  { value: 8, suffix: "", label: "Projects shipped" },
+  { value: 2, suffix: "", label: "Health products" },
+  { value: 4, suffix: "", label: "Languages in Prima" },
+];
+
+const socials = [
+  { href: "https://github.com/delightofili", icon: FaGithub, label: "GitHub" },
+  {
+    href: "https://www.linkedin.com/in/delightofili",
+    icon: FaLinkedin,
+    label: "LinkedIn",
+  },
+  { href: "https://x.com/DelightOfili", icon: FaXTwitter, label: "X" },
+  {
+    href: "https://www.tiktok.com/@delightsomeee",
+    icon: FaTiktok,
+    label: "TikTok",
+  },
+];
 
 export default function About() {
+  const fade = (delay = 0) => ({
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.3 },
+    transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] },
+  });
+
   return (
+    // lg:h-svh makes the section exactly one screen tall on laptops, so it fits without scrolling inside it
     <section
       id="about"
-      className="w-full bg-[#f7f6f3] px-6 py-24 sm:px-10 lg:px-16 lg:py-32"
+      className="flex items-center bg-ink px-5 py-28 text-white sm:px-8 lg:h-svh lg:min-h-[700px] lg:px-12 lg:py-0"
     >
-      <div className="mx-auto max-w-7xl">
-        {/* Section heading */}
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-[300px_1fr] lg:gap-20 lg:pt-16">
+        {/* smaller photo so everything sits on one screen */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
+          {...fade()}
+          className="relative mx-auto w-[240px] lg:w-[300px]"
         >
-          <p className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-neutral-400">
-            About Me
-          </p>
-
-          <h2 className="max-w-5xl text-3xl font-medium leading-[1.05] tracking-[-0.045em] text-neutral-950 sm:text-4xl md:text-5xl lg:text-6xl">
-            Hello! My name is Chukwunonso Ofili.
-          </h2>
+          <div className="absolute inset-0 -rotate-6 rounded-[28px] bg-brand" />
+          <motion.div
+            whileHover={{ rotate: -2, scale: 1.02 }}
+            className="relative aspect-[4/5] overflow-hidden rounded-[28px] border-4 border-white"
+          >
+            <Image
+              src="/profile.png"
+              alt="Chukwunonso Ofili"
+              fill
+              sizes="300px"
+              className="object-cover"
+            />
+          </motion.div>
+          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-4 py-2 text-xs font-bold text-ink">
+            Enugu, Nigeria 🇳🇬
+          </div>
         </motion.div>
 
-        {/* Image + About content */}
-        <div className="mt-20 grid items-start gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-          {/* IMAGE */}
-          <motion.div
-            initial={{ opacity: 0, y: 35 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8 }}
-            className="relative"
+        <div>
+          <motion.p
+            {...fade(0.05)}
+            className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-brand"
           >
-            {/* Back layer */}
-            <div className="absolute -bottom-5 -right-5 h-full w-full border border-neutral-300 bg-[#d8c5a9]" />
+            <span className="h-px w-8 bg-brand" /> About me
+          </motion.p>
 
-            {/* Main image */}
-            <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-200">
-              <Image
-                src="/profile.png"
-                alt="Chukwunonso Ofili"
-                fill
-                priority={false}
-                className="object-cover object-center grayscale-[15%]"
-                sizes="(max-width: 1024px) 100vw, 45vw"
-              />
-            </div>
+          <motion.h2
+            {...fade(0.1)}
+            className="font-display text-4xl font-bold leading-[1.02] tracking-[-0.04em] sm:text-5xl xl:text-6xl"
+          >
+            Public health mind.{" "}
+            <span className="text-brand">Engineer&apos;s hands.</span>
+          </motion.h2>
 
-            {/* Small image label */}
-            <div className="absolute bottom-4 left-4 bg-white/90 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.25em] text-neutral-700 backdrop-blur-sm">
-              Chukwunonso Ofili
-            </div>
+          <motion.div
+            {...fade(0.15)}
+            className="mt-6 max-w-2xl space-y-4 text-base leading-7 text-white/75 xl:text-lg xl:leading-8"
+          >
+            <p>
+              I&apos;m Chukwunonso, Nonso for short, a final year public health
+              student and a self taught fullstack developer. I&apos;ve been
+              writing code since 2022 and I build in public.
+            </p>
+            <p>
+              Studying health showed me where clinics struggle: lost paper
+              records, no network, no time. So I build for that, like Prima for
+              primary health centres and MedCore for hospitals. I also build
+              fullstack products of every kind, from fintech ledgers to team
+              tools.
+            </p>
           </motion.div>
 
-          {/* ABOUT CONTENT */}
+          {/* animated counters */}
           <motion.div
-            initial={{ opacity: 0, y: 35 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="lg:pt-2"
+            {...fade(0.2)}
+            className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4"
           >
-            <div className="max-w-2xl space-y-7 text-lg leading-8 text-neutral-600 sm:text-xl sm:leading-9">
-              <p>
-                I’m a Fullstack Developer from Nigeria, focused on building
-                clean, functional, and thoughtful digital products for the web.
-                I enjoy creating interfaces that look good, feel natural to use,
-                and work just as well behind the scenes.
-              </p>
-
-              <p>
-                I’ve been coding since 2022 and have built a range of projects
-                using technologies including JavaScript, React, Next.js,
-                Node.js, TypeScript, PostgreSQL, Prisma, Supabase, and Tailwind
-                CSS.
-              </p>
-
-              <p>
-                I particularly enjoy frontend development, but I love taking an
-                idea from the interface all the way to the backend and
-                deployment.
-              </p>
-
-              <p>
-                I’m focused on building better products, solving interesting
-                problems, and continuously expanding what I can build.
-              </p>
-            </div>
-
-            {/* Info blocks */}
-            <div className="mt-14 border-t border-neutral-300">
-              {/* What I enjoy */}
-              <div className="border-b border-neutral-300 py-7">
-                <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
-                  What I Enjoy
+            {stats.map((s) => (
+              <div key={s.label} className="bg-ink p-5">
+                <p className="font-display text-4xl font-bold text-brand">
+                  <Counter to={s.value} />
+                  {s.suffix}
                 </p>
-
-                <p className="text-lg leading-8 text-neutral-700">
-                  Building interfaces, solving problems, exploring new
-                  technologies, and turning ideas into real products.
+                <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-white/60">
+                  {s.label}
                 </p>
               </div>
+            ))}
+          </motion.div>
 
-              {/* Beyond code */}
-              <div className="border-b border-neutral-300 py-7">
-                <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
-                  Beyond Code
-                </p>
-
-                <p className="text-lg leading-8 text-neutral-700">
-                  God lover. Piano player. Problem solver.
-                </p>
-              </div>
-
-              {/* Based in */}
-              <div className="py-7">
-                <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
-                  Based In
-                </p>
-
-                <p className="text-lg text-neutral-700">Nigeria 🇳🇬</p>
-              </div>
-              <div className="flex  gap-4 pt-3 items-center text-neutral-700 mt-3">
-                <p className="font-bold ">Follow me:</p>
-                <div className="flex gap-4 text-neutral-700">
-                  <a href="https://github.com/delightofili">
-                    <FaGithub />
-                  </a>
-                  <a href="https://x.com/DelightOfili">
-                    <FaXTwitter />
-                  </a>
-                  <a href="https://www.tiktok.com/@delightsomeee">
-                    <FaTiktok />
-                  </a>
-                </div>
-              </div>
+          <motion.div
+            {...fade(0.25)}
+            className="mt-8 flex flex-wrap items-center gap-6"
+          >
+            <p className="text-sm text-white/60">
+              Beyond code: God lover, piano player, problem solver.
+            </p>
+            <div className="flex gap-2">
+              {socials.map(({ href, icon: Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 transition-all hover:-translate-y-1 hover:border-brand hover:bg-brand"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
             </div>
           </motion.div>
         </div>
       </div>
     </section>
   );
+}
+
+// counts from 0 to the target number the first time it scrolls into view
+function Counter({ to }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(0, to, {
+      duration: 1.4,
+      ease: "easeOut",
+      onUpdate: (v) => setValue(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [inView, to]);
+
+  return <span ref={ref}>{value}</span>;
 }
