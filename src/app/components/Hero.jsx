@@ -250,7 +250,7 @@ export default function Hero() {
           ))}
 
           {/* spinning badge */}
-          <div className="absolute -bottom-8 -left-8 h-24 w-24 sm:-bottom-10 sm:-left-12 sm:h-28 sm:w-28">
+          {/* <div className="absolute -bottom-8 -left-8 h-24 w-24 sm:-bottom-10 sm:-left-12 sm:h-28 sm:w-28">
             <motion.svg
               viewBox="0 0 100 100"
               animate={{ rotate: 360 }}
@@ -276,7 +276,7 @@ export default function Hero() {
             <span className="absolute inset-0 flex items-center justify-center font-display text-3xl font-bold text-brand">
               +
             </span>
-          </div>
+          </div> */}
         </motion.div>
       </motion.div>
 

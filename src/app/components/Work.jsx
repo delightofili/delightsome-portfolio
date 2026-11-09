@@ -87,7 +87,7 @@ export default function Work({ showAll = false }) {
               More builds
             </div>
             <div className="grid gap-x-8 gap-y-14 md:grid-cols-2">
-              {others.slice(0, 4).map((project) => (
+              {others.slice(0, 2).map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}
             </div>

@@ -24,7 +24,7 @@ export default function Home() {
       <Hero />
 
       {/* tilted orange band between hero and work */}
-      <div
+      {/*  <div
         data-cursor-light
         className="-rotate-2 scale-105 border-y-2 border-ink bg-brand py-5 text-white"
       >
@@ -41,7 +41,7 @@ export default function Home() {
           ))}
         />
       </div>
-
+ */}
       <Work />
       <About />
       <Skills />
