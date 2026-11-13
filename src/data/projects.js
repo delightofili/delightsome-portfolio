@@ -15,7 +15,7 @@ export const projects = [
 
     image: "/projects/prima.jpg",
 
-    live: "https://prima-landing-cut.pages.dev",
+    live: "https://primahealth.com.ng/",
     github: "https://github.com/delightofili/Prima",
 
     featured: true,
